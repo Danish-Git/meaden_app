@@ -1,0 +1,119 @@
+{
+  "welcome_back": "Welcome back!",
+  "@welcome_back": {
+    "description": ""
+  },
+  "sign_in_to_the_app": "Sign in to the app",
+  "@sign_in_to_the_app": {
+    "description": ""
+  },
+  "email": "E-Mail",
+  "@email": {
+    "description": ""
+  },
+  "enter_valid_email": "Please enter valid email",
+  "@enter_valid_email": {
+    "description": ""
+  },
+  "password": "Password",
+  "@password": {
+    "description": ""
+  },
+  "enter_valid_password": "Please enter valid password",
+  "@enter_valid_password": {
+    "description": ""
+  },
+  "login": "Log In",
+  "@login": {
+    "description": ""
+  },
+  "forgot_password": "Forgot your password?",
+  "@forgot_password": {
+    "description": ""
+  },
+  "dont_have_account": "Don't have an account?",
+  "@dont_have_account": {
+    "description": ""
+  },
+  "register_interest": "Register Interest",
+  "@register_interest": {
+    "description": ""
+  },
+
+
+
+  "micro_Funds": "Micro Funds",
+  "@micro_Funds": {
+    "description": ""
+  },
+  "stock_search": "Stock Search",
+  "@stock_search": {
+    "description": ""
+  },
+  "historical": "Historical",
+  "@historical": {
+    "description": ""
+  },
+  "menu": "Menu",
+  "@menu": {
+    "description": ""
+  },
+
+
+  "cash": "Cash",
+  "@cash": {
+    "description": ""
+  },
+  "invested": "Invested",
+  "@invested": {
+    "description": ""
+  },
+
+  "current_balance": "Account Balance",
+  "@current_balance": {
+    "description": ""
+  },
+
+  "investment": "Investment",
+  "@investment": {
+    "description": ""
+  },
+  "deposit": "Deposit",
+  "@deposit": {
+    "description": ""
+  },
+  "potfolio_time_series": "Portfolio Time-Series",
+  "@potfolio_time_series": {
+    "description": ""
+  },
+  "active_micro_funds": "Active Micro Funds",
+  "@active_micro_funds": {
+    "description": ""
+  },
+  "micro_fund": "Micro \nFund",
+  "@micro_fund": {
+    "description": ""
+  },
+  "investment": "Investment",
+  "@investment": {
+    "description": ""
+  },
+  "current": "Current",
+  "@current": {
+    "description": ""
+  },
+  "percent": "P/L%",
+  "@percent": {
+    "description": ""
+  },
+  "days_ago": "Days \nAgo",
+  "@days_ago": {
+    "description": ""
+  },
+
+
+  "internet_not_available": "Please check internet connectivity!",
+  "@internet_not_available": {
+    "description": ""
+  }
+}
