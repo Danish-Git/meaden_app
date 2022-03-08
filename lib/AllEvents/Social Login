@@ -1,0 +1,38 @@
+firebase_auth: ^3.1.2
+firebase_core: ^1.7.0
+google_sign_in: 5.2.3
+sign_in_with_apple: ^3.3.0
+
+
+
+void _appleLogIn() async {
+    final credential = await SignInWithApple.getAppleIDCredential(
+      scopes: [
+        AppleIDAuthorizationScopes.email,
+        AppleIDAuthorizationScopes.fullName,
+      ],
+    );
+
+    print(credential.email);
+    print(credential.familyName);
+    print(credential.givenName);
+    print(credential.authorizationCode);
+    print(credential.identityToken);
+    print(credential.userIdentifier);
+    print(credential.state);
+
+  }
+  
+  void _googleLogIn() async {
+    var userData = await signInWithGoogle();
+    print(userData);
+
+    if(userData!.user != null) {
+      Navigator.pop(context);
+
+      String? email = userData.user!.email;
+      String? socialId = userData.user!.uid;
+    }
+  }
+  
+  
