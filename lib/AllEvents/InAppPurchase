@@ -1,4 +1,4 @@
-
+in_app_purchase: ^1.0.8
 
 
 const String androidProductId = "android.test.purchased";
