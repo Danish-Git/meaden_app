@@ -1,0 +1,133 @@
+
+
+
+const String androidProductId = "android.test.purchased";
+const String iosProductId= "test_purchase";
+
+final List<String> _productLists = Platform.isAndroid
+    ? ['android.test.purchased']
+    : ['test_purchase'];
+    
+    
+final InAppPurchase _inAppPurchase = InAppPurchase.instance;
+  late StreamSubscription<List<PurchaseDetails>> _subscription;
+
+  List<PurchaseDetails> _purchases = []; 
+ 
+ 
+
+@override
+void initState() {
+
+    super.initState();
+
+    final Stream<List<PurchaseDetails>> purchaseUpdated = _inAppPurchase.purchaseStream;
+    _subscription = purchaseUpdated.listen((purchaseDetailsList) {
+      _listenToPurchaseUpdated(purchaseDetailsList);
+    }, onDone: () {
+      _subscription.cancel();
+    }, onError: (error) {
+      print(error);
+    });
+    
+    initStoreInfo();
+    
+}
+
+@override
+  void dispose() {
+    if (Platform.isIOS) {
+      var iosPlatformAddition = _inAppPurchase
+          .getPlatformAddition<InAppPurchaseIosPlatformAddition>();
+      iosPlatformAddition.setDelegate(null);
+    }
+    _subscription.cancel();
+    super.dispose();
+  }
+  
+  
+Future<void> initStoreInfo() async {
+    final bool isAvailable = await _inAppPurchase.isAvailable();
+    if (!isAvailable) {
+      setState(() {
+        _purchases = [];
+      });
+      return;
+    }
+    if (Platform.isIOS) {
+      var iosPlatformAddition = _inAppPurchase.getPlatformAddition<InAppPurchaseIosPlatformAddition>();
+      await iosPlatformAddition.setDelegate(ExamplePaymentQueueDelegate());
+    }
+
+    ProductDetailsResponse productDetailResponse =
+    await _inAppPurchase.queryProductDetails(_productLists.toSet());
+    if (productDetailResponse.error != null) {
+      setState(() {
+        _purchases = [];
+      });
+      return;
+    }
+
+    if (productDetailResponse.productDetails.isEmpty) {
+      setState(() {
+        _purchases = [];
+      });
+      return;
+    }
+    setState(() {});
+  }  
+
+
+
+void startInAppPurchase() async {
+    showDialog(context: context, builder: (context) => showHideLoader(context));
+    String id;
+    if (Platform.isIOS) {
+      id = iosProductId;
+    } else {
+      id = androidProductId;
+    }
+    print('ids@#@#'+id.toString());
+    Set<String> _kIds = <String>{id};
+    print("kIDS@#@#"+_kIds.toString());
+    ProductDetailsResponse response = await InAppPurchase.instance.queryProductDetails(_kIds);
+    if (response.notFoundIDs.isNotEmpty) {
+      showToast(transTxt.productNotFound);
+      Navigator.pop(context);
+      // Handle the error.
+    }
+    List<ProductDetails> products = response.productDetails;
+    print(products.length);
+    /*for (int i = 1; i < products.length; i++) {*/
+    final PurchaseParam purchaseParam = PurchaseParam(productDetails: products[0]);
+    InAppPurchase.instance.buyConsumable(purchaseParam: purchaseParam);
+    /*}*/
+  }
+  
+  void _listenToPurchaseUpdated(List<PurchaseDetails> purchaseDetailsList) {
+    purchaseDetailsList.forEach((PurchaseDetails purchaseDetails) async {
+      if (purchaseDetails.status == PurchaseStatus.pending) {
+        // _showPendingUI();
+        print("pending");
+       // Navigator.pop(context);
+      } else {
+        if (purchaseDetails.status == PurchaseStatus.error) {
+          print(purchaseDetails.error!);
+          Navigator.pop(context);
+        } else if (purchaseDetails.status == PurchaseStatus.purchased ||
+            purchaseDetails.status == PurchaseStatus.restored) {
+          bool valid = await _verifyPurchase(purchaseDetails);
+          if (valid) {
+            // UtilsNavigation.pushReplace(context, const SelectCategoryScreen());
+            // showToast("Item Purchased");
+            addSubscription();
+          } else {
+            _handleInvalidPurchase(purchaseDetails);
+          }
+        }
+        if (purchaseDetails.pendingCompletePurchase) {
+          await InAppPurchase.instance.completePurchase(purchaseDetails);
+        }
+      }
+    });
+  }
